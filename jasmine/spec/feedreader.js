@@ -3,7 +3,6 @@
  * This is the spec file that Jasmine will read and contains
  * all of the tests that will be run against your application.
  */
-
 /* We're placing all of our tests within the $() function,
  * since some of these tests may require DOM elements. We want
  * to ensure they don't run until the DOM is ready.
@@ -22,153 +21,91 @@ $(document).ready(function() {
          * page?
          */
     describe('RSS Feeds', function() {
-        it('are defined', function() {
+
+        it('is defined', function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
 
-        var urlTest = function (index){
-            it('Url is defined', function(){
-                expect(allFeeds[index].url).toBeDefined();
-                expect(allFeeds[index].url.length).not.toBe(0);
-            })
-        }
-           for(i=0; i< allFeeds.length; i++){
-                   urlTest(i)
+
+        it('Urls are defined', function() {
+
+            for (i = 0; i < allFeeds.length; i++) {
+                expect(allFeeds[i].url).toBeDefined();
+                expect(allFeeds[i].url.length).not.toBe(0);
             }
-
-        var nameTest = function (index){
-            it('Name is defined', function(){
-                expect(allFeeds[index].name).toBeDefined();
-                expect(allFeeds[index].name.length).not.toBe(0);
-            })
-        }
-           for(i=0; i< allFeeds.length; i++){
-                   nameTest(i)
-            }
-    });
-
-
-describe("The menu", function(){
-
-     here = $('.menu-icon-link')
-     xy = function (){
-        var slider = document.getElementById('slide-menu')
-        var leftSlide = slider.getBoundingClientRect().left
-        return leftSlide
-    }
-    beforeEach(function(done){
-        feedMenu()
-        setTimeout(function(){
-        there = xy();
-        done()
-        },1000)
-    })
-
-
-    it(" is opening", function (){
-        expect(there).toEqual(0);
         })
 
-    it('is closing', function(){
-        expect(there).toBeLessThan(0)
+        it('Names are defined', function() {
+            for (i = 0; i < allFeeds.length; i++) {
+                expect(allFeeds[i].name).toBeDefined();
+                expect(allFeeds[i].name.length).not.toBe(0);
+            }
+        })
     })
 
-})
 
-describe('Initial Entries', function(){
+    describe("The menu", function() {
+
+        here = $('.menu-icon-link')
+        xy = function() {
+            var slider = document.getElementById('slide-menu')
+            var leftSlide = slider.getBoundingClientRect().left
+            return leftSlide
+        }
+        beforeEach(function(done) {
+            feedMenu()
+            setTimeout(function() {
+                there = xy();
+                done()
+            }, 1000)
+        })
 
 
-    beforeEach(function(done){
-        loadFeed(0)
-        setTimeout(function(){
-            firstLink = document.getElementsByClassName('entry-link')[0].innerText
-        done()
-        },1000)
+        it(" is opening", function() {
+            expect(there).toEqual(0);
+        })
+
+        it('is closing', function() {
+            expect(there).toBeLessThan(0)
+        })
 
     })
 
-    it('are appearing when LoadFeed function is called', function(){
-        expect($('.header-title')[0].innerHTML).toMatch('Udacity Blog')
-        expect((document.getElementsByClassName('entry-link').length)).toBeGreaterThan(0)
+    describe('Initial Entries', function() {
+
+
+        beforeEach(function(done) {
+            loadFeed(0)
+            setTimeout(function() {
+                firstLink = document.getElementsByClassName('entry-link')[0].innerText
+                done()
+            }, 1000)
+
+        })
+
+        it('are appearing when LoadFeed function is called', function() {
+            expect($('.header-title')[0].innerHTML).toMatch('Udacity Blog')
+            expect((document.getElementsByClassName('entry-link').length)).toBeGreaterThan(0)
+        })
+
     })
 
-})
+
+    describe('New Feed Selection', function() {
 
 
-describe('New Feed Selection', function(){
+        beforeEach(function(done) {
+            loadFeed(1)
+            setTimeout(function() {
+                entryLink = document.getElementsByClassName('entry-link')[0].innerText;
+                done()
+            }, 1000)
+        })
 
-     // entryLink = document.getElementsByClassName('entry-link');
-
-
-    beforeEach(function(done){
-        loadFeed(1)
-        setTimeout(function(){
-            entryLink = document.getElementsByClassName('entry-link')[0].innerText;
-        done()
-        },1000)
+        it('is changing the options available', function() {
+            expect(entryLink).toContain('Let’s Define Exactly What Atomic CSS is')
+        })
     })
-
-    it('has at least 1 entry within the feed container', function(){
-        expect(entryLink).toContain('Let’s Define Exactly What Atomic CSS is')
-    })
-})
 
 }());
-
-//     it('appears when menu icon is clicked', function (){
-
-//                 var menuIcon = $('.menu-icon-link');
-//                 var spyEvent = spyOnEvent(menuIcon, 'click' );
-//                 menuIcon.click();
-//                 expect( 'click' ).toHaveBeenTriggeredOn( menuIcon );
-//                 expect( spyEvent ).toHaveBeenTriggered();
-// })
-
-
-
-
-                    // var test = false;
-                    // $('.menu-icon-link').on('click', function(){
-                    //     if (!test){
-                    //         test = true;
-                    //     }else{
-                    //         test = false
-                    //     }
-                    // })
-
-                    // if(test){
-                    //     var slider = document.getElementById('slide-menu')
-                    //     var leftSlide = slider.getBoundingClientRect().left
-
-                    //     expect(leftSlide).toBeGreaterThan(0)
-                    // }
-
-                    // if(!test){
-                    //     var slider = document.getElementById('slide-menu')
-                    //     var leftSlide = slider.getBoundingClientRect().left
-
-                    //     expect(leftSlide).toBeGreaterThan(0)
-                    // }
-
-
-
-
-    /* TODO: Write a new test suite named "Initial Entries" */
-
-        /* TODO: Write a test that ensures when the loadFeed
-         * function is called and completes its work, there is at least
-         * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
-         * the use of Jasmine's beforeEach and asynchronous done() function.
-         */
-
-    /* TODO: Write a new test suite named "New Feed Selection"
-
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
-         */
-
-
-
