@@ -8,11 +8,11 @@
  * since some of these tests may require DOM elements. We want
  * to ensure they don't run until the DOM is ready.
  */
-$(function() {
+$(document).ready(function() {
     /* This is our first test suite - a test suite just contains
     * a related set of tests. This suite is all about the RSS
     * feeds definitions, the allFeeds variable in our application.
-    */
+
     describe('RSS Feeds', function() {
         /* This is our first test - it tests to make sure that the
          * allFeeds variable has been defined and that it is not
@@ -21,38 +21,138 @@ $(function() {
          * allFeeds in app.js to be an empty array and refresh the
          * page?
          */
+    describe('RSS Feeds', function() {
         it('are defined', function() {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
 
+        var urlTest = function (index){
+            it('Url is defined', function(){
+                expect(allFeeds[index].url).toBeDefined();
+                expect(allFeeds[index].url.length).not.toBe(0);
+            })
+        }
+           for(i=0; i< allFeeds.length; i++){
+                   urlTest(i)
+            }
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
-         */
-
-
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
-         */
+        var nameTest = function (index){
+            it('Name is defined', function(){
+                expect(allFeeds[index].name).toBeDefined();
+                expect(allFeeds[index].name.length).not.toBe(0);
+            })
+        }
+           for(i=0; i< allFeeds.length; i++){
+                   nameTest(i)
+            }
     });
 
 
-    /* TODO: Write a new test suite named "The menu" */
+describe("The menu", function(){
 
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
-         */
+     here = $('.menu-icon-link')
+     xy = function (){
+        var slider = document.getElementById('slide-menu')
+        var leftSlide = slider.getBoundingClientRect().left
+        return leftSlide
+    }
+    beforeEach(function(done){
+        feedMenu()
+        setTimeout(function(){
+        there = xy();
+        done()
+        },1000)
+    })
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
-          */
+
+    it(" is opening", function (){
+        expect(there).toEqual(0);
+        })
+
+    it('is closing', function(){
+        expect(there).toBeLessThan(0)
+    })
+
+})
+
+describe('Initial Entries', function(){
+
+
+    beforeEach(function(done){
+        loadFeed(0)
+        setTimeout(function(){
+            firstLink = document.getElementsByClassName('entry-link')[0].innerText
+        done()
+        },1000)
+
+    })
+
+    it('are appearing when LoadFeed function is called', function(){
+        expect($('.header-title')[0].innerHTML).toMatch('Udacity Blog')
+        expect((document.getElementsByClassName('entry-link').length)).toBeGreaterThan(0)
+    })
+
+})
+
+
+describe('New Feed Selection', function(){
+
+     // entryLink = document.getElementsByClassName('entry-link');
+
+
+    beforeEach(function(done){
+        loadFeed(1)
+        setTimeout(function(){
+            entryLink = document.getElementsByClassName('entry-link')[0].innerText;
+        done()
+        },1000)
+    })
+
+    it('has at least 1 entry within the feed container', function(){
+        expect(entryLink).toContain('Let’s Define Exactly What Atomic CSS is')
+    })
+})
+
+}());
+
+//     it('appears when menu icon is clicked', function (){
+
+//                 var menuIcon = $('.menu-icon-link');
+//                 var spyEvent = spyOnEvent(menuIcon, 'click' );
+//                 menuIcon.click();
+//                 expect( 'click' ).toHaveBeenTriggeredOn( menuIcon );
+//                 expect( spyEvent ).toHaveBeenTriggered();
+// })
+
+
+
+
+                    // var test = false;
+                    // $('.menu-icon-link').on('click', function(){
+                    //     if (!test){
+                    //         test = true;
+                    //     }else{
+                    //         test = false
+                    //     }
+                    // })
+
+                    // if(test){
+                    //     var slider = document.getElementById('slide-menu')
+                    //     var leftSlide = slider.getBoundingClientRect().left
+
+                    //     expect(leftSlide).toBeGreaterThan(0)
+                    // }
+
+                    // if(!test){
+                    //     var slider = document.getElementById('slide-menu')
+                    //     var leftSlide = slider.getBoundingClientRect().left
+
+                    //     expect(leftSlide).toBeGreaterThan(0)
+                    // }
+
+
+
 
     /* TODO: Write a new test suite named "Initial Entries" */
 
@@ -69,4 +169,6 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-}());
+
+
+
