@@ -1,3 +1,14 @@
+// Hello.
+//
+// This is JSHint, a tool that helps to detect errors and potential
+// problems in your JavaScript code.
+//
+// To start, simply enter some JavaScript anywhere on this page. Your
+// report will appear on the right side.
+//
+// Additionally, you can toggle specific options in the Configure
+// menu.
+
 /* feedreader.js
  *
  * This is the spec file that Jasmine will read and contains
@@ -30,82 +41,83 @@ $(document).ready(function() {
 
         it('Urls are defined', function() {
 
-            for (i = 0; i < allFeeds.length; i++) {
+            for (var i = 0; i < allFeeds.length; i++) {
                 expect(allFeeds[i].url).toBeDefined();
                 expect(allFeeds[i].url.length).not.toBe(0);
             }
-        })
+        });
 
         it('Names are defined', function() {
-            for (i = 0; i < allFeeds.length; i++) {
+            for ( var i = 0; i < allFeeds.length; i++) {
                 expect(allFeeds[i].name).toBeDefined();
                 expect(allFeeds[i].name.length).not.toBe(0);
             }
-        })
-    })
+        });
+    });
 
 
     describe("The menu", function() {
 
-        here = $('.menu-icon-link')
-        xy = function() {
-            var slider = document.getElementById('slide-menu')
-            var leftSlide = slider.getBoundingClientRect().left
-            return leftSlide
-        }
-        beforeEach(function(done) {
-            feedMenu()
-            setTimeout(function() {
-                there = xy();
-                done()
-            }, 1000)
-        })
+        it('is hidden by default', function(){
 
+            expect(document.body.classList).toContain('menu-hidden');
+
+        });
 
         it(" is opening", function() {
-            expect(there).toEqual(0);
-        })
+
+            $('.menu-icon-link').click();
+            expect(document.body.classList).not.toContain('menu-hidden');
+
+        });
 
         it('is closing', function() {
-            expect(there).toBeLessThan(0)
-        })
 
-    })
-
-    describe('Initial Entries', function() {
-
-
-        beforeEach(function(done) {
-            loadFeed(0)
-            setTimeout(function() {
-                firstLink = document.getElementsByClassName('entry-link')[0].innerText
-                done()
-            }, 1000)
-
-        })
-
-        it('are appearing when LoadFeed function is called', function() {
-            expect($('.header-title')[0].innerHTML).toMatch('Udacity Blog')
-            expect((document.getElementsByClassName('entry-link').length)).toBeGreaterThan(0)
-        })
-
-    })
+            $('.menu-icon-link').click();
+            expect(document.body.classList).toContain('menu-hidden');
+        });
+   });
 
 
-    describe('New Feed Selection', function() {
+// Specs
+describe("Initial Entries", function () {
 
 
-        beforeEach(function(done) {
-            loadFeed(1)
-            setTimeout(function() {
-                entryLink = document.getElementsByClassName('entry-link')[0].innerText;
-                done()
-            }, 1000)
-        })
 
-        it('is changing the options available', function() {
-            expect(entryLink).toContain('Let’s Define Exactly What Atomic CSS is')
-        })
-    })
+    function testAsync(done) {
+
+        loadFeed(0, done);
+}
+
+    beforeEach(function (done) {
+
+        testAsync(done);
+    });
+
+    it("has at least one entry showing", function () {
+        entryLink = document.getElementsByClassName('entry-link')[0].innerText;
+        expect((document.getElementsByClassName('entry-link').length)).toBeGreaterThan(0)
+    });
+});
+
+describe("New Feed Selection", function () {
+
+    function testAsync2(done) {
+        loadFeed(1, done);
+}
+
+    beforeEach(function (done) {
+
+        testAsync2(done);
+    });
+
+
+     it('is changing the options available', function() {
+        exitLink = document.getElementsByClassName('entry-link')[0].innerText;
+        expect(entryLink).not.toMatch(exitLink);
+        });
+
+});
 
 }());
+

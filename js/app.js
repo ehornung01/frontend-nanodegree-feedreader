@@ -121,6 +121,8 @@ $(function() {
      */
 
 
+
+
         var categoryMenu = function(){
             var item = $(this);
 
@@ -136,7 +138,7 @@ $(function() {
      */
 
      feedMenu = function (){
-            $('body').toggleClass('menu-hidden');
+             $('body').toggleClass('menu-hidden');
 
      };
 
