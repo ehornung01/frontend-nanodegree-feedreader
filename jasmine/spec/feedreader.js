@@ -59,20 +59,16 @@ $(document).ready(function() {
     describe("The menu", function() {
 
         it('is hidden by default', function(){
-
             expect(document.body.classList).toContain('menu-hidden');
-
         });
 
         it(" is opening", function() {
-
             $('.menu-icon-link').click();
             expect(document.body.classList).not.toContain('menu-hidden');
 
         });
 
         it('is closing', function() {
-
             $('.menu-icon-link').click();
             expect(document.body.classList).toContain('menu-hidden');
         });
@@ -83,37 +79,30 @@ $(document).ready(function() {
 describe("Initial Entries", function () {
 
 
-
-    function testAsync(done) {
-
-        loadFeed(0, done);
-}
-
     beforeEach(function (done) {
-
-        testAsync(done);
+        loadFeed(0,done);
     });
 
     it("has at least one entry showing", function () {
-        entryLink = document.getElementsByClassName('entry-link')[0].innerText;
-        expect((document.getElementsByClassName('entry-link').length)).toBeGreaterThan(0)
+        expect($('.feed .entry').length).toBeGreaterThan(0);
     });
 });
 
 describe("New Feed Selection", function () {
 
-    function testAsync2(done) {
-        loadFeed(1, done);
-}
 
     beforeEach(function (done) {
-
-        testAsync2(done);
+        loadFeed(0,function(once){
+            entryLink = document.getElementsByClassName('entry-link')[0].innerText;
+            loadFeed(1,function(twice){
+                exitLink = document.getElementsByClassName('entry-link')[0].innerText;
+                done();
+            });
+        });
     });
 
 
      it('is changing the options available', function() {
-        exitLink = document.getElementsByClassName('entry-link')[0].innerText;
         expect(entryLink).not.toMatch(exitLink);
         });
 
